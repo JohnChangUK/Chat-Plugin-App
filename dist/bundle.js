@@ -10066,15 +10066,17 @@ var Widget = function (_Component) {
       };
 
       var comments = Object.assign([], this.state.comments);
-
-      comments.unshift(comment);
+      comments.unshift(comment); // Puts the most recent comment on top
       this.setState({
         comments: comments
       });
+
+      event.target.value = ''; // This is to clear the input box
     }
   }, {
     key: 'render',
     value: function render() {
+
       if (this.state.showComments == true) return _react2.default.createElement(
         'div',
         { style: style.comments },

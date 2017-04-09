@@ -27,15 +27,17 @@ class Widget extends Component {
     };
 
     let comments = Object.assign([], this.state.comments);
-
-    comments.unshift(comment);
+    comments.unshift(comment); // Puts the most recent comment on top
     this.setState({
       comments: comments
     });
-    
+
+    event.target.value = ''; // This is to clear the input box
+
   }
 
   render() {
+
     if(this.state.showComments == true)
       return (
         <div style={style.comments}>
