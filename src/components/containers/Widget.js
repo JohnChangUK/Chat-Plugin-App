@@ -1,13 +1,45 @@
 import React, { Component } from 'react';
 import { Comment, ToggleBar } from '../presentation';
+import firebase from 'firebase';
+import { Base64 } from 'js-base64';
 
 class Widget extends Component {
   constructor() {
     super();
     this.state = {
         showComments: false,
-        comments: []
+        comments: [],
+        firebase: null
     };
+  }
+
+  componentDidMount() {
+    const fbApp = firebase.initializeApp({
+      apiKey: "AIzaSyAVs1tote0KLaOt5CBLpGqGY3MGnrb8dqQ",
+      authDomain: "chat-app-7fc5f.firebaseapp.com",
+      databaseURL: "https://chat-app-7fc5f.firebaseio.com",
+      projectId: "chat-app-7fc5f",
+      storageBucket: "chat-app-7fc5f.appspot.com",
+      messagingSenderId: "464213058821"
+    });
+
+    this.setState({
+      firebase: fbApp
+    });
+
+    const path = Base64.encode(window.location.href) + '/comments';
+
+    fbApp.database().ref(path).on('value', (chatapp) => {
+      if (chatapp == null)
+        return;
+
+      const data = chatapp.val();
+      console.log("Comments Updated: " + JSON.stringify(data));
+      this.setState({
+        comments: data.reverse()
+    });
+    });
+
   }
 
   toggleComments() {
@@ -26,11 +58,17 @@ class Widget extends Component {
       timestamp: Math.round(Date.now()/1000)
     };
 
+    const encoded = Base64.encode(window.location.href);
+
+    console.log("submitComment: " + encoded);
+    console.log("DECODED: " + Base64.decode(encoded));
+
     let comments = Object.assign([], this.state.comments);
-    comments.unshift(comment); // Puts the most recent comment on top
-    this.setState({
-      comments: comments
-    });
+
+    const path = Base64.encode(window.location.href) + '/comments/' + comments.length;
+    this.state.firebase.database().ref(path).set(comment);
+
+    console.log("submitComment: " + JSON.stringify(comments));
 
     event.target.value = ''; // This is to clear the input box
 
@@ -63,7 +101,6 @@ class Widget extends Component {
 
 }
 
-
 const style = {
   comments: {
     zIndex: 100,
@@ -73,6 +110,8 @@ const style = {
     bottom: 0, 
     right: 0, 
     background: 'skyblue',
+    overflowY: 'scroll',
+    paddingBottom: 96
   },
   input: {
     width: 100 + '%', 
