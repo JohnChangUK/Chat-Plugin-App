@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default (props) => {
 
   return (
-      <div onClick={props.onToggle.bind(this) } style={ style.container }>
+      <div onClick={props.onToggle.bind(this)} style={ style.container }>
           This is the Toggle Bar!
         </div>
         );

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Comments, ToggleBar } from '../presentation';
+import { Comment, ToggleBar } from '../presentation';
 
 class Widget extends Component {
   constructor() {
     super();
     this.state = {
-        showComments: false
+        showComments: false,
+        comments: []
     };
   }
 
@@ -16,10 +17,39 @@ class Widget extends Component {
     });
   }
 
+  submitComment(event) {
+    if (event.keyCode != 13)
+      return;
+
+    const comment = {
+      text: event.target.value,
+      timestamp: Math.round(Date.now()/1000)
+    };
+
+    let comments = Object.assign([], this.state.comments);
+
+    comments.unshift(comment);
+    this.setState({
+      comments: comments
+    });
+    
+  }
+
   render() {
     if(this.state.showComments == true)
       return (
         <div style={style.comments}>
+        <div>
+            <input onKeyDown={this.submitComment.bind(this)} 
+            style={style.input} type="text" placeholder="Enter Comment" />
+        </div>
+  
+        {
+          this.state.comments.map( (comment, i) => {
+            return <Comment key={comment.timestamp} {...comment} />
+          })
+        }
+
           <ToggleBar onToggle={ this.toggleComments.bind(this) }/>
         </div>
         );
@@ -41,6 +71,12 @@ const style = {
     bottom: 0, 
     right: 0, 
     background: 'skyblue',
+  },
+  input: {
+    width: 100 + '%', 
+    height: 32, 
+    border: 'none', 
+    padding: 6
   }
 }
 

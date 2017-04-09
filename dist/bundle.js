@@ -10014,6 +10014,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(25);
@@ -10039,7 +10041,8 @@ var Widget = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Widget.__proto__ || Object.getPrototypeOf(Widget)).call(this));
 
     _this.state = {
-      showComments: false
+      showComments: false,
+      comments: []
     };
     return _this;
   }
@@ -10053,11 +10056,37 @@ var Widget = function (_Component) {
       });
     }
   }, {
+    key: 'submitComment',
+    value: function submitComment(event) {
+      if (event.keyCode != 13) return;
+
+      var comment = {
+        text: event.target.value,
+        timestamp: Math.round(Date.now() / 1000)
+      };
+
+      var comments = Object.assign([], this.state.comments);
+
+      comments.unshift(comment);
+      this.setState({
+        comments: comments
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       if (this.state.showComments == true) return _react2.default.createElement(
         'div',
         { style: style.comments },
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement('input', { onKeyDown: this.submitComment.bind(this),
+            style: style.input, type: 'text', placeholder: 'Enter Comment' })
+        ),
+        this.state.comments.map(function (comment, i) {
+          return _react2.default.createElement(_presentation.Comment, _extends({ key: comment.timestamp }, comment));
+        }),
         _react2.default.createElement(_presentation.ToggleBar, { onToggle: this.toggleComments.bind(this) })
       );
 
@@ -10077,6 +10106,12 @@ var style = {
     bottom: 0,
     right: 0,
     background: 'skyblue'
+  },
+  input: {
+    width: 100 + '%',
+    height: 32,
+    border: 'none',
+    padding: 6
   }
 };
 
@@ -10101,29 +10136,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = function (props) {
 
+  var comment = props;
+
   return _react2.default.createElement(
     'div',
-    { style: style.container },
-    _react2.default.createElement(
-      'div',
-      { style: { color: '#fff', width: 320, padding: 6,
-          background: '#000' } },
-      'This is the Widget!'
-    ),
-    'Comments Component! }'
+    { style: { padding: 12, borderBottom: '1px dotted #ddd' } },
+    comment.text
   );
-};
-
-var style = {
-  container: {
-    zIndex: 100,
-    height: 650,
-    width: 320,
-    position: 'fixed',
-    bottom: 0,
-    right: 0,
-    background: 'skyblue'
-  }
 };
 
 /***/ }),
@@ -10174,20 +10193,20 @@ var style = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ToggleBar = exports.Comments = undefined;
-
-var _Comments = __webpack_require__(84);
-
-var _Comments2 = _interopRequireDefault(_Comments);
+exports.Comment = exports.ToggleBar = undefined;
 
 var _ToggleBar = __webpack_require__(85);
 
 var _ToggleBar2 = _interopRequireDefault(_ToggleBar);
 
+var _Comment = __webpack_require__(84);
+
+var _Comment2 = _interopRequireDefault(_Comment);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.Comments = _Comments2.default;
 exports.ToggleBar = _ToggleBar2.default;
+exports.Comment = _Comment2.default;
 
 /***/ }),
 /* 87 */
