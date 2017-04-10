@@ -4,7 +4,7 @@ export default (props) => {
 
   return (
       <div onClick={props.onToggle.bind(this)} style={ style.container }>
-          This is the Toggle Bar!
+          {props.label}
         </div>
         );
 }
@@ -17,6 +17,7 @@ const style = {
     bottom:0, 
     right:0, 
     background:'#000',
-    padding:6
+    padding: 6,
+    paddingLeft: 14
   }
 };

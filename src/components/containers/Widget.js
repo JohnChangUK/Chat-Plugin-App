@@ -55,7 +55,7 @@ class Widget extends Component {
 
     const comment = {
       text: event.target.value,
-      timestamp: Math.round(Date.now()/1000)
+      timestamp: Date.now()
     };
 
     const encoded = Base64.encode(window.location.href);
@@ -90,12 +90,12 @@ class Widget extends Component {
           })
         }
 
-          <ToggleBar onToggle={ this.toggleComments.bind(this) }/>
+          <ToggleBar label='Hide Comments' onToggle={ this.toggleComments.bind(this) }/>
         </div>
         );
 
     return (
-        <ToggleBar onToggle={ this.toggleComments.bind(this) }/>
+        <ToggleBar label='Show Comments' onToggle={ this.toggleComments.bind(this) }/>
       );
   }
 
@@ -110,7 +110,7 @@ const style = {
     bottom: 0, 
     right: 0, 
     background: '#f1f9f5',
-    borderLeft: '2px solid #ddd',
+    borderLeft: '1px solid #ddd',
     overflowY: 'scroll',
     paddingBottom: 96
   },
@@ -118,7 +118,8 @@ const style = {
     width: 100 + '%', 
     height: 40, 
     border: 'none', 
-    padding: 6
+    padding: 9,
+    borderBottom: '1px solid #ddd'
   }
 }
 
