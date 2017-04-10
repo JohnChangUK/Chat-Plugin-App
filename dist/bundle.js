@@ -10145,7 +10145,7 @@ var Widget = function (_Component) {
         firebase: fbApp
       });
 
-      var path = _jsBase.Base64.encode(window.location.href) + '/comments';
+      var path = '/comments';
 
       fbApp.database().ref(path).on('value', function (chatapp) {
         if (chatapp == null) return;
@@ -10182,7 +10182,7 @@ var Widget = function (_Component) {
 
       var comments = Object.assign([], this.state.comments);
 
-      var path = _jsBase.Base64.encode(window.location.href) + '/comments/' + comments.length;
+      var path = '/comments/' + comments.length;
       this.state.firebase.database().ref(path).set(comment);
 
       console.log("submitComment: " + JSON.stringify(comments));
@@ -10223,13 +10223,14 @@ var style = {
     position: 'fixed',
     bottom: 0,
     right: 0,
-    background: 'skyblue',
+    background: '#f1f9f5',
+    borderLeft: '2px solid #ddd',
     overflowY: 'scroll',
     paddingBottom: 96
   },
   input: {
     width: 100 + '%',
-    height: 32,
+    height: 40,
     border: 'none',
     padding: 6
   }

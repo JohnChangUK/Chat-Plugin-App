@@ -27,7 +27,7 @@ class Widget extends Component {
       firebase: fbApp
     });
 
-    const path = Base64.encode(window.location.href) + '/comments';
+    const path = '/comments';
 
     fbApp.database().ref(path).on('value', (chatapp) => {
       if (chatapp == null)
@@ -65,7 +65,7 @@ class Widget extends Component {
 
     let comments = Object.assign([], this.state.comments);
 
-    const path = Base64.encode(window.location.href) + '/comments/' + comments.length;
+    const path = '/comments/' + comments.length;
     this.state.firebase.database().ref(path).set(comment);
 
     console.log("submitComment: " + JSON.stringify(comments));
@@ -109,13 +109,14 @@ const style = {
     position: 'fixed', 
     bottom: 0, 
     right: 0, 
-    background: 'skyblue',
+    background: '#f1f9f5',
+    borderLeft: '2px solid #ddd',
     overflowY: 'scroll',
     paddingBottom: 96
   },
   input: {
     width: 100 + '%', 
-    height: 32, 
+    height: 40, 
     border: 'none', 
     padding: 6
   }
