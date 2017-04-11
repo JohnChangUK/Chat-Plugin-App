@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 
+// This will be a Purely Functional Component
+
 export default (props) => {
 
   const comment = props;
   const timestamp = new Date(comment.timestamp);
 
   return (
-        <div style={ {padding: 12, borderBottom: '1px dotted #ddd'} }>
+      <div style={ {padding: 12, borderBottom: '1px dotted #ddd'} }>
 
           <Moment style={ style.timestamp } 
           format="MMM D, YYYY" date={timestamp} /> <br />
 
           {comment.text}
-
-        </div>
-      )
+      </div>
+    )
 }
 
 const style = {

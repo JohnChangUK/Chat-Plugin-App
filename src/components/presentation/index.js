@@ -1,9 +1,9 @@
-import ToggleBar from './ToggleBar';
 import Comment from './Comment';
+import ToggleBar from './ToggleBar';
 
-export {
+export { 
 
-  ToggleBar,
-  Comment
-  
+  Comment,
+  ToggleBar
+
 }
